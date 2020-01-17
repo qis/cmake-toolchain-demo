@@ -10,13 +10,13 @@
 #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON CACHE STRING "")
 
 # Set compile definitions.
-add_definitions(/DADD_DEFINITIONS)
+#add_definitions(/DADD_DEFINITIONS)
 
 # Set compile options.
-add_compile_options(/DADD_COMPILE_OPTIONS)
+#add_compile_options(/DADD_COMPILE_OPTIONS)
 
 # Set link options.
-add_link_options(/IGNORE:4199 /DELAYLOAD:ADD_LINK_OPTIONS)
+#add_link_options(/IGNORE:4199 /DELAYLOAD:ADD_LINK_OPTIONS)
 
 # Set compiler and linker flags.
 #set(CMAKE_CXX_FLAGS_INIT "/DCMAKE_CXX_FLAGS_INIT")
@@ -61,12 +61,13 @@ add_link_options(/IGNORE:4199 /DELAYLOAD:ADD_LINK_OPTIONS)
 #set(CMAKE_RC_FLAGS "/DCMAKE_RC_FLAGS" CACHE STRING "")
 #set(CMAKE_RC_FLAGS_RELEASE "/DCMAKE_RC_FLAGS_RELEASE" CACHE STRING "")
 
-# Disables logo for compiler and linker.
+# Disable logo for compiler and linker.
 set(CMAKE_CL_NOLOGO "/nologo" CACHE STRING "")
 
-# Disables logo for resource compiler.
+# Disable logo for resource compiler.
 set(CMAKE_RC_FLAGS_INIT "/nologo")
 
+# Print cached variables.
 function(print_cached_variables)
   foreach(variable
       CMAKE_CXX_FLAGS
