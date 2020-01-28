@@ -10,4 +10,5 @@ This project can be used to experiment with CMake toolchain variables.
 The following files can be used as toolchain templates that are portable across CMake versions.
 
 * [toolchain-linux.cmake](toolchain-linux.cmake)
-* [toolchain-windows.cmake](toolchain-windows.cmake)
+* [toolchain-windows-msvc.cmake](toolchain-windows-msvc.cmake)
+* [toolchain-windows-llvm.cmake](toolchain-windows-llvm.cmake)

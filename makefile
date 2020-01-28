@@ -22,7 +22,7 @@ all/windows:
 	@cmake -GNinja \
 	  -DCMAKE_TOOLCHAIN_FILE="$(toolchain)" \
 	  -DCMAKE_VERBOSE_MAKEFILE=ON \
-	  -DCMAKE_BUILD_TYPE=Release \
+	  -DCMAKE_BUILD_TYPE=MinSizeRel \
 	  -B build
 	@cmake -E echo "Building..."
 	@cmake --build build
