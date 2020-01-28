@@ -4,7 +4,7 @@ all:
 	@cmake -GNinja \
 	  -DCMAKE_TOOLCHAIN_FILE="toolchain.cmake" \
 	  -DCMAKE_VERBOSE_MAKEFILE=ON \
-	  -DCMAKE_BUILD_TYPE=Debug \
+	  -DCMAKE_BUILD_TYPE=Release \
 	  -B build
 	@cmake -E echo "Building..."
 	@cmake --build build

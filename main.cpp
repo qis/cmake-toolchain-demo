@@ -25,10 +25,12 @@ int main(int argc, char* argv[]) {
     std::regex re{ R"(([^:]+):STRING=(.*))", std::regex::ECMAScript | std::regex::optimize };
     for (std::string line; std::getline(is, line);) {
       for (const auto& name : names) {
-        if (line.find(name) != 0 ||
-            line.find("_DEBUG") != std::string::npos ||
-            line.find("_MINSIZEREL") != std::string::npos ||
-            line.find("_RELWITHDEBINFO") != std::string::npos) {
+        if (line.find(name) != 0
+          //|| line.find("_DEBUG") != std::string::npos
+          //|| line.find("_RELEASE") != std::string::npos
+          //|| line.find("_MINSIZEREL") != std::string::npos
+          //|| line.find("_RELWITHDEBINFO") != std::string::npos
+        ) {
           continue;
         }
         const auto pos = line.find_last_not_of(" \t\r\n");
