@@ -1,3 +1,18 @@
+# Set executables.
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+  set(CMAKE_C_COMPILER "cl" CACHE STRING "")
+  set(CMAKE_CXX_COMPILER "cl" CACHE STRING "")
+  set(CMAKE_LINKER "link" CACHE STRING "")
+  set(CMAKE_RC_COMPILER "rc" CACHE STRING "")
+  set(CMAKE_ASM_MASM_COMPILER "ml64" CACHE STRING "")
+else()
+  set(CMAKE_C_COMPILER "cc" CACHE STRING "")
+  set(CMAKE_CXX_COMPILER "c++" CACHE STRING "")
+  set(CMAKE_RANLIB "ranlib" CACHE STRING "")
+  set(CMAKE_AR "ar" CACHE STRING "")
+  set(CMAKE_NM "nm" CACHE STRING "")
+endif()
+
 # Set C++ standard.
 # Will not appear in CMAKE_*_FLAGS* variables.
 # Will work no matter the cmake_minimum_required version.
@@ -12,7 +27,9 @@
 # - cmake_policy(SET CMP0091 NEW)
 # - cmake_policy(VERSION 3.15)
 #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "")
-#set(CMAKE_MSVC_RUNTIME_LIBRARY "" CACHE STRING "")
+
+# Required for ASM_MASM and CMake < 3.16 compatibility.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "" CACHE STRING "")
 
 # Set interprocedural optimizations.
 # Will not appear in CMAKE_*_FLAGS* variables.
@@ -38,24 +55,25 @@
 # Will not appear in CMAKE_*_LINKER_FLAGS* variables.
 #add_link_options(/IGNORE:4199 /DELAYLOAD:ADD_LINK_OPTIONS)
 
+
 # Initialize compiler flags.
-# Will be prepended to "/DWIN32 /D_WINDOWS /GR /EHsc" (and "/W3" in CMake 3.14 or earlier versions).
+# Will be prepended to "/DWIN32 /D_WINDOWS", "/GR /EHsc" (CXX) and "/W3" (CMake < 3.15).
 #set(CMAKE_CXX_FLAGS_INIT "/DCXX_FLAGS_INIT")
 
 # Initialize compiler debug flags.
-# Will be prepended to "/Zi /Ob0 /Od /RTC1" (and "/MDd" in CMake 3.14 or earlier versions).
+# Will be prepended to "/Zi /Ob0 /Od /RTC1" and "/MDd" (CMake < 3.15).
 #set(CMAKE_CXX_FLAGS_DEBUG_INIT "/DCXX_FLAGS_DEBUG_INIT")
 
 # Initialize compiler release flags.
-# Will be prepended to "/O2 /Ob2 /DNDEBUG" (and "/MD" in CMake 3.14 or earlier versions).
+# Will be prepended to "/O2 /Ob2 /DNDEBUG" and "/MD" (CMake < 3.15).
 #set(CMAKE_CXX_FLAGS_RELEASE_INIT "/DCXX_FLAGS_RELEASE_INIT")
 
 # Initialize compiler minimum size release flags.
-# Will be prepended to "/O1 /Ob1 /DNDEBUG" (and "/MD" in CMake 3.14 or earlier versions).
+# Will be prepended to "/O1 /Ob1 /DNDEBUG" and "/MD" (CMake < 3.15).
 #set(CMAKE_CXX_FLAGS_MINSIZEREL_INIT "/DCXX_FLAGS_MINSIZEREL_INIT")
 
 # Initialize compiler release with debug info flags.
-# Will be prepended to "/Zi /O2 /Ob1 /DNDEBUG" (and "/MD" in CMake 3.14 or earlier versions).
+# Will be prepended to "/Zi /O2 /Ob1 /DNDEBUG" and "/MD" (CMake < 3.15).
 #set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT "/DCXX_FLAGS_RELWITHDEBINFO_INIT")
 
 # Set compiler flags.
@@ -65,6 +83,7 @@
 #set(CMAKE_CXX_FLAGS_RELEASE "/DCXX_FLAGS_RELEASE" CACHE STRING "")
 #set(CMAKE_CXX_FLAGS_MINSIZEREL "/DCXX_FLAGS_MINSIZEREL" CACHE STRING "")
 #set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/DCXX_FLAGS_RELWITHDEBINFO" CACHE STRING "")
+
 
 # Initialize static linker flags.
 # Will be prepended to "/machine:x64".
@@ -90,33 +109,6 @@
 #set(CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL "/IGNORE:4199 /DELAYLOAD:STATIC_LINKER_FLAGS_MINSIZEREL" CACHE STRING "")
 #set(CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO "/IGNORE:4199 /DELAYLOAD:STATIC_LINKER_FLAGS_RELWITHDEBINFO" CACHE STRING "")
 
-# Initialize module linker flags.
-# Will be prepended to "/machine:x64".
-#set(CMAKE_MODULE_LINKER_FLAGS_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_INIT")
-
-# Initialize module linker debug flags.
-# Will be prepended to "/debug /INCREMENTAL".
-#set(CMAKE_MODULE_LINKER_FLAGS_DEBUG_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_DEBUG_INIT")
-
-# Initialize module linker release flags.
-# Will be prepended to "/INCREMENTAL:NO".
-#set(CMAKE_MODULE_LINKER_FLAGS_RELEASE_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELEASE_INIT")
-
-# Initialize module linker minimum size release flags.
-# Will be prepended to "/INCREMENTAL:NO".
-#set(CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_MINSIZEREL_INIT")
-
-# Initialize module linker release with debug info flags.
-# Will be prepended to "/debug /INCREMENTAL".
-#set(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELWITHDEBINFO_INIT")
-
-# Set module linker flags.
-# Will overwrite CMAKE_MODULE_LINKER_FLAGS_INIT* variables.
-#set(CMAKE_MODULE_LINKER_FLAGS "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS" CACHE STRING "")
-#set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_DEBUG" CACHE STRING "")
-#set(CMAKE_MODULE_LINKER_FLAGS_RELEASE "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELEASE" CACHE STRING "")
-#set(CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_MINSIZEREL" CACHE STRING "")
-#set(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELWITHDEBINFO" CACHE STRING "")
 
 # Initialize shared linker flags.
 # Will be prepended to "/machine:x64".
@@ -146,6 +138,36 @@
 #set(CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL "/IGNORE:4199 /DELAYLOAD:SHARED_LINKER_FLAGS_MINSIZEREL" CACHE STRING "")
 #set(CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "/IGNORE:4199 /DELAYLOAD:SHARED_LINKER_FLAGS_RELWITHDEBINFO" CACHE STRING "")
 
+
+# Initialize module linker flags.
+# Will be prepended to "/machine:x64".
+#set(CMAKE_MODULE_LINKER_FLAGS_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_INIT")
+
+# Initialize module linker debug flags.
+# Will be prepended to "/debug /INCREMENTAL".
+#set(CMAKE_MODULE_LINKER_FLAGS_DEBUG_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_DEBUG_INIT")
+
+# Initialize module linker release flags.
+# Will be prepended to "/INCREMENTAL:NO".
+#set(CMAKE_MODULE_LINKER_FLAGS_RELEASE_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELEASE_INIT")
+
+# Initialize module linker minimum size release flags.
+# Will be prepended to "/INCREMENTAL:NO".
+#set(CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_MINSIZEREL_INIT")
+
+# Initialize module linker release with debug info flags.
+# Will be prepended to "/debug /INCREMENTAL".
+#set(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO_INIT "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELWITHDEBINFO_INIT")
+
+# Set module linker flags.
+# Will overwrite CMAKE_MODULE_LINKER_FLAGS_INIT* variables.
+#set(CMAKE_MODULE_LINKER_FLAGS "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS" CACHE STRING "")
+#set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_DEBUG" CACHE STRING "")
+#set(CMAKE_MODULE_LINKER_FLAGS_RELEASE "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELEASE" CACHE STRING "")
+#set(CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_MINSIZEREL" CACHE STRING "")
+#set(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO "/IGNORE:4199 /DELAYLOAD:MODULE_LINKER_FLAGS_RELWITHDEBINFO" CACHE STRING "")
+
+
 # Initialize executable linker flags.
 # Will be prepended to "/machine:x64".
 #set(CMAKE_EXE_LINKER_FLAGS_INIT "/IGNORE:4199 /DELAYLOAD:EXE_LINKER_FLAGS_INIT")
@@ -174,9 +196,35 @@
 #set(CMAKE_EXE_LINKER_FLAGS_MINSIZEREL "/IGNORE:4199 /DELAYLOAD:EXE_LINKER_FLAGS_MINSIZEREL" CACHE STRING "")
 #set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "/IGNORE:4199 /DELAYLOAD:EXE_LINKER_FLAGS_RELWITHDEBINFO" CACHE STRING "")
 
+
 # Replace standard libraries:
 # kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
 #set(CMAKE_CXX_STANDARD_LIBRARIES "/IGNORE:4199 /DELAYLOAD:CXX_STANDARD_LIBRARIES" CACHE STRING "")
+
+
+# Initialize assembler flags.
+#set(CMAKE_ASM_MASM_FLAGS_INIT "/DASM_MASM_FLAGS_INIT")
+
+# Initialize assembler debug flags.
+#set(CMAKE_ASM_MASM_FLAGS_DEBUG_INIT "/DASM_MASM_FLAGS_DEBUG_INIT")
+
+# Initialize assembler release flags.
+#set(CMAKE_ASM_MASM_FLAGS_RELEASE_INIT "/DASM_MASM_FLAGS_RELEASE_INIT")
+
+# Initialize assembler minimum size release flags.
+#set(CMAKE_ASM_MASM_FLAGS_MINSIZEREL_INIT "/DASM_MASM_FLAGS_MINSIZEREL_INIT")
+
+# Initialize assembler release with debug info flags.
+#set(CMAKE_ASM_MASM_FLAGS_RELWITHDEBINFO_INIT "/DASM_MASM_FLAGS_RELWITHDEBINFO_INIT")
+
+# Set assembler flags.
+# Will overwrite CMAKE_ASM_MASM_FLAGS_INIT* variables.
+#set(CMAKE_ASM_MASM_FLAGS "/DASM_MASM_FLAGS" CACHE STRING "")
+#set(CMAKE_ASM_MASM_FLAGS_DEBUG "/DASM_MASM_FLAGS_DEBUG" CACHE STRING "")
+#set(CMAKE_ASM_MASM_FLAGS_RELEASE "/DASM_MASM_FLAGS_RELEASE" CACHE STRING "")
+#set(CMAKE_ASM_MASM_FLAGS_MINSIZEREL "/DASM_MASM_FLAGS_MINSIZEREL" CACHE STRING "")
+#set(CMAKE_ASM_MASM_FLAGS_RELWITHDEBINFO "/DASM_MASM_FLAGS_RELWITHDEBINFO" CACHE STRING "")
+
 
 # Initialize resource compiler flags.
 # Will replace "-DWIN32".
@@ -203,28 +251,13 @@
 #set(CMAKE_RC_FLAGS_MINSIZEREL "/IGNORE:4199 /DELAYLOAD:RC_FLAGS_MINSIZEREL" CACHE STRING "")
 #set(CMAKE_RC_FLAGS_RELWITHDEBINFO "/IGNORE:4199 /DELAYLOAD:RC_FLAGS_RELWITHDEBINFO" CACHE STRING "")
 
+
 # Disable logo for compiler and linker.
-set(CMAKE_CL_NOLOGO "/nologo" CACHE STRING "")
+#set(CMAKE_CL_NOLOGO "/nologo" CACHE STRING "")
+
+# Disable logo for assembler.
+#set(CMAKE_ASM_MASM_FLAGS_INIT "/nologo")
 
 # Disable logo and configure the resource compiler.
-set(CMAKE_RC_FLAGS_INIT "/nologo /c65001 /DWIN32")
-set(CMAKE_RC_FLAGS_DEBUG_INIT "/D_DEBUG")
-
-# Prints cached variables.
-function(print_cached_variables)
-  foreach(variable
-      CMAKE_CXX_FLAGS
-      CMAKE_STATIC_LINKER_FLAGS
-      CMAKE_MODULE_LINKER_FLAGS
-      CMAKE_SHARED_LINKER_FLAGS
-      CMAKE_EXE_LINKER_FLAGS
-      CMAKE_CXX_STANDARD_LIBRARIES
-      CMAKE_RC_FLAGS)
-    foreach(suffix "_INIT" "_RELEASE_INIT" "" "_DEBUG" "_RELEASE" "_MINSIZEREL" "_RELWITHDEBINFO")
-      set(name "${variable}${suffix}")
-      if(DEFINED CACHE{${name}})
-        message("set(${name} \"${${name}}\")")
-      endif()
-    endforeach()
-  endforeach()
-endfunction()
+#set(CMAKE_RC_FLAGS_INIT "/nologo /c65001 /DWIN32")
+#set(CMAKE_RC_FLAGS_DEBUG_INIT "/D_DEBUG")

@@ -13,12 +13,15 @@ int main(int argc, char* argv[]) {
     is.exceptions(std::ifstream::badbit);
 
     std::vector<std::string> names;
+    names.push_back("CMAKE_C_FLAGS");
     names.push_back("CMAKE_CXX_FLAGS");
     names.push_back("CMAKE_STATIC_LINKER_FLAGS");
-    names.push_back("CMAKE_MODULE_LINKER_FLAGS");
     names.push_back("CMAKE_SHARED_LINKER_FLAGS");
+    names.push_back("CMAKE_MODULE_LINKER_FLAGS");
     names.push_back("CMAKE_EXE_LINKER_FLAGS");
+    names.push_back("CMAKE_C_STANDARD_LIBRARIES");
     names.push_back("CMAKE_CXX_STANDARD_LIBRARIES");
+    names.push_back("CMAKE_ASM_MASM_FLAGS");
     names.push_back("CMAKE_RC_FLAGS");
 
     std::map<std::string, std::string> variables;
